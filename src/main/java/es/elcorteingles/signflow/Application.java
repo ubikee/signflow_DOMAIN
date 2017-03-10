@@ -26,10 +26,8 @@ public class Application {
     public final static ArtRepository artRepository = new ArtRepository(EVENTSTORE);
             
     static {
-        BUS.subscribeEventStore((event) -> {
-            EVENTSTORE.store(event);
-        });
-        BudgetEventHandlers.register(BUS);
+        BUS.subscribeEventStore(EVENTSTORE::store);
+        BudgetEventHandlers.register(BUS); // TODO: BUS.subscribeAll(BudgetEventHandlers);
     }
     
     public static DomainEventPublisher domainEventPublisher() {
