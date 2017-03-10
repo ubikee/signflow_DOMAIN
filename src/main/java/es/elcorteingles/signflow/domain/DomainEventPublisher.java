@@ -11,13 +11,13 @@ import java.util.concurrent.Executors;
 public class DomainEventPublisher {
     
     Map<String, List<DomainEventSubscriber>> subscribers = new HashMap<>();
-    Optional<DomainEventSubscriber<Event>> maybeEventStore;
+    Optional<DomainEventSubscriber<Event>> maybeUniversalSubscriber;
     ExecutorService executor = Executors.newFixedThreadPool(4);
 
     public final void emit(Event event) {
         
-        if (maybeEventStore.isPresent()) {
-            maybeEventStore.get().handle(event);
+        if (maybeUniversalSubscriber.isPresent()) {
+            maybeUniversalSubscriber.get().handle(event);
         }
         
         String eventTYPE = event.type();
@@ -36,7 +36,7 @@ public class DomainEventPublisher {
         eventHandlers.add(subscriber);
     }
     
-    public final void subscribeEventStore(DomainEventSubscriber subscriber) {
-        this.maybeEventStore = Optional.of(subscriber);
+    public final void subscribeToAll(DomainEventSubscriber subscriber) {
+        this.maybeUniversalSubscriber = Optional.of(subscriber);
     }
 }
