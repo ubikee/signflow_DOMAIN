@@ -1,4 +1,4 @@
-package es.elcorteingles.signflow.domain.subcampaign;
+package es.elcorteingles.signflow.subcampaign.domain;
 
 import es.elcorteingles.signflow.domain.EntityFactory;
 import es.elcorteingles.signflow.domain.EventStore;

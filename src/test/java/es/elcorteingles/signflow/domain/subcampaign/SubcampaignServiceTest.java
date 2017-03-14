@@ -1,10 +1,12 @@
 package es.elcorteingles.signflow.domain.subcampaign;
 
+import es.elcorteingles.signflow.subcampaign.domain.SubcampaignService;
+import es.elcorteingles.signflow.subcampaign.domain.SubCampaign;
 import es.elcorteingles.signflow.Application;
 import static es.elcorteingles.signflow.Application.*;
 import es.elcorteingles.signflow.domain.Event;
-import es.elcorteingles.signflow.domain.subcampaign.command.CreateSubcampaignCommand;
-import es.elcorteingles.signflow.domain.subcampaign.event.SubcampaignCreated;
+import es.elcorteingles.signflow.subcampaign.domain.command.CreateSubcampaignCommand;
+import es.elcorteingles.signflow.subcampaign.domain.event.SubcampaignCreated;
 
 import java.util.Optional;
 import java.util.Queue;

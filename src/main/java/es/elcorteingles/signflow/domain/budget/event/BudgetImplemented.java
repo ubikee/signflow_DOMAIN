@@ -6,6 +6,7 @@ import java.util.UUID;
 public class BudgetImplemented extends Event {
 
     public static final String TYPE = "BUDGET:IMPLEMENTED";
+    
     public BudgetImplemented(UUID id) {
         super(id.toString());
     }

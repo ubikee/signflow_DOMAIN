@@ -1,4 +1,4 @@
-package es.elcorteingles.signflow.domain.subcampaign.event;
+package es.elcorteingles.signflow.subcampaign.domain.event;
 
 import es.elcorteingles.signflow.domain.Event;
 

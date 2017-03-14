@@ -1,16 +1,17 @@
 package es.elcorteingles.signflow;
 
-import es.elcorteingles.signflow.domain.DomainEventPublisher;
+import es.elcorteingles.signflow.domain.EventBus;
 import es.elcorteingles.signflow.domain.EventStore;
-import es.elcorteingles.signflow.domain.subcampaign.SubcampaignRepository;
+import es.elcorteingles.signflow.subcampaign.domain.SubcampaignRepository;
 import es.elcorteingles.signflow.domain.access.AuthenticationService;
+import es.elcorteingles.signflow.domain.art.ArtEventHandlers;
 import es.elcorteingles.signflow.domain.art.ArtRepository;
 import es.elcorteingles.signflow.domain.art.ArtService;
 import es.elcorteingles.signflow.domain.budget.BudgetEventHandlers;
 import es.elcorteingles.signflow.domain.budget.BudgetRepository;
 import es.elcorteingles.signflow.domain.budget.MaterialsBudgetService;
-import es.elcorteingles.signflow.domain.subcampaign.SubCampaignEventStore;
-import es.elcorteingles.signflow.domain.subcampaign.SubcampaignService;
+import es.elcorteingles.signflow.subcampaign.domain.SubCampaignEventStore;
+import es.elcorteingles.signflow.subcampaign.domain.SubcampaignService;
 
 /**
  * 
@@ -18,19 +19,19 @@ import es.elcorteingles.signflow.domain.subcampaign.SubcampaignService;
  */ 
 public class Application {
 
-    public final static DomainEventPublisher BUS = new DomainEventPublisher();
+    public final static EventBus BUS = new EventBus();
     public final static EventStore EVENTSTORE = new SubCampaignEventStore();
-    
     public final static SubcampaignRepository SUBCAMPAIGNS = new SubcampaignRepository(EVENTSTORE);
     public final static BudgetRepository BUDGETS = new BudgetRepository(EVENTSTORE);
     public final static ArtRepository artRepository = new ArtRepository(EVENTSTORE);
             
     static {
-        BUS.subscribeToAll(EVENTSTORE::store);
-        BudgetEventHandlers.register(BUS); // TODO: BUS.subscribeAll(BudgetEventHandlers);
+        BUS.addAllEventsListener(EVENTSTORE::store);
+        BudgetEventHandlers.register(BUS); // TODO: BUS.addAllEventsListener(BudgetEventHandlers.all());
+        ArtEventHandlers.register(BUS);
     }
     
-    public static DomainEventPublisher domainEventPublisher() {
+    public static EventBus domainEventPublisher() {
         return BUS;
     }
     

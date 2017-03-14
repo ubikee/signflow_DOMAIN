@@ -27,7 +27,7 @@ public final class MaterialsBudgetService {
         }
     }
 
-    void implementBudget(ImplementBudgetCommand command) {
+    public void implementBudget(ImplementBudgetCommand command) {
         Optional<MaterialsBudget> maybeBudget = budgets.findByID(command.budgetID);
         if (maybeBudget.isPresent()) {
             MaterialsBudget budget = maybeBudget.get();

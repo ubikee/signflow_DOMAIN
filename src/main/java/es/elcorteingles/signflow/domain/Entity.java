@@ -11,35 +11,29 @@ import java.util.logging.Logger;
 
 public abstract class Entity {
 
-
     public final void emit(Event event) {
-        System.out.println("EMIT: "+event);
         this.apply(event);
         Application.BUS.emit(event);
     }
 
     public final void apply(Event event) {
         List<Method> methods = getEventHandlers(event.type());
-        for (Method method : methods) {
+        for (final Method method : methods) {
             try {
                 method.invoke(this, event);
                 
                 //TODO: handle errors
                 
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvocationTargetException ex) {
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     private List<Method> getEventHandlers(String eventType) {
-        final List<Method> methods = new ArrayList<Method>();
+        final List<Method> methods = new ArrayList<>();
         Class<?> klass = this.getClass();
-        final List<Method> allMethods = new ArrayList<Method>(Arrays.asList(klass.getDeclaredMethods()));
+        final List<Method> allMethods = new ArrayList<>(Arrays.asList(klass.getDeclaredMethods()));
         for (final Method method : allMethods) {
             if (method.isAnnotationPresent(EventHandler.class)) {
                 EventHandler annotation = method.getAnnotation(EventHandler.class);

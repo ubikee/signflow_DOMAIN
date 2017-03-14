@@ -8,17 +8,15 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DomainEventPublisher {
+public class EventBus {
     
     Map<String, List<DomainEventSubscriber>> subscribers = new HashMap<>();
-    Optional<DomainEventSubscriber<Event>> maybeUniversalSubscriber;
-    ExecutorService executor = Executors.newFixedThreadPool(4);
+    Optional<DomainEventSubscriber<Event>> universalSubscriber;
+    ExecutorService executor = Executors.newFixedThreadPool(10);
 
     public final void emit(Event event) {
         
-        if (maybeUniversalSubscriber.isPresent()) {
-            maybeUniversalSubscriber.get().handle(event);
-        }
+        universalSubscriber.ifPresent(subscriber -> subscriber.handle(event));
         
         String eventTYPE = event.type();
         List<DomainEventSubscriber> eventHandlers = subscribers.getOrDefault(eventTYPE, new ArrayList<>());
@@ -29,14 +27,14 @@ public class DomainEventPublisher {
         
     }
     
-    public final void subscribe(String eventType, DomainEventSubscriber subscriber) {
+    public final void addEventListener(String eventType, DomainEventSubscriber subscriber) {
         List<DomainEventSubscriber> eventHandlers = subscribers.get(eventType);
         if (eventHandlers == null)
             subscribers.put(eventType, eventHandlers = new ArrayList<>());
         eventHandlers.add(subscriber);
     }
     
-    public final void subscribeToAll(DomainEventSubscriber subscriber) {
-        this.maybeUniversalSubscriber = Optional.of(subscriber);
+    public final void addAllEventsListener(DomainEventSubscriber subscriber) {
+        this.universalSubscriber = Optional.of(subscriber);
     }
 }

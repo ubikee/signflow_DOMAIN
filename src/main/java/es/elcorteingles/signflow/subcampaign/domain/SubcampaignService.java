@@ -1,6 +1,6 @@
-package es.elcorteingles.signflow.domain.subcampaign;
+package es.elcorteingles.signflow.subcampaign.domain;
 
-import es.elcorteingles.signflow.domain.subcampaign.command.CreateSubcampaignCommand;
+import es.elcorteingles.signflow.subcampaign.domain.command.CreateSubcampaignCommand;
 import java.util.UUID;
 
 public final class SubcampaignService {

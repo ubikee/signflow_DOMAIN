@@ -11,6 +11,7 @@ public class EventStoreRepository<T extends Entity> implements Repository<T> {
     private final EventStore store;
     private final EntityFactory<T> factory;
     private Map<String, T> cache = new HashMap<>();
+    // TODO: cache expiration ~ EHCache? 
 
     public EventStoreRepository(final EventStore store, EntityFactory<T> factory) {
         this.store = store;
@@ -25,6 +26,7 @@ public class EventStoreRepository<T extends Entity> implements Repository<T> {
     @Override
     public Optional<T> findByID(String ID) {        
         return Optional.of( cache.containsKey(ID) ? cache.get(ID) : this.recover(ID) );
+        //TODO: look for new events for cached entities and apply them
     }
     
     private T recover(String ID) {

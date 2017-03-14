@@ -1,6 +1,6 @@
-package es.elcorteingles.signflow.domain.subcampaign;
+package es.elcorteingles.signflow.subcampaign.domain;
 
-import es.elcorteingles.signflow.domain.subcampaign.event.SubcampaignCreated;
+import es.elcorteingles.signflow.subcampaign.domain.event.SubcampaignCreated;
 import es.elcorteingles.signflow.domain.Entity;
 import es.elcorteingles.signflow.domain.EventHandler;
 import java.util.UUID;

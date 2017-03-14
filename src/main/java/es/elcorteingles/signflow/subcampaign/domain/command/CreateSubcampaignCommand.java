@@ -1,4 +1,4 @@
-package es.elcorteingles.signflow.domain.subcampaign.command;
+package es.elcorteingles.signflow.subcampaign.domain.command;
 
 public class CreateSubcampaignCommand {
 

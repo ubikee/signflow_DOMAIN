@@ -10,7 +10,6 @@ public class EventStore {
     private final Map<String, Queue<Event>> events = new HashMap<>();
 
     public void store(Event event) {
-        System.out.println("STORE EVENT: "+event);
         Queue entityQueue = events.get(event.entityID);
         if (entityQueue == null)
             events.put(event.entityID, entityQueue = new LinkedList<>());
