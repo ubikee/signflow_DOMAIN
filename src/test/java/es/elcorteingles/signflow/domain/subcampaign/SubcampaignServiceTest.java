@@ -38,7 +38,7 @@ public class SubcampaignServiceTest {
         assertEquals(ownerID, descriptor.ownerID);
 
         // check event is fired
-        final Queue<Event> queue = EVENTSTORE.get(newSubcampaignID);
+        final Queue<Event> queue = STORE.get(newSubcampaignID);
         final boolean anyMatch = queue.stream().anyMatch((Event event) -> {
             System.out.println(event);
             return SubcampaignCreated.TYPE.equals(event.type());

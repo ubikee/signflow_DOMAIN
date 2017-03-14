@@ -1,7 +1,7 @@
 package es.elcorteingles.signflow.domain.art;
 
 import es.elcorteingles.signflow.Application;
-import es.elcorteingles.signflow.domain.EventBus;
+import es.elcorteingles.signflow.domain.Bus;
 import es.elcorteingles.signflow.domain.DomainEventSubscriber;
 import es.elcorteingles.signflow.domain.art.command.NewBudgetNotification;
 import es.elcorteingles.signflow.domain.budget.event.BudgetImplemented;
@@ -13,7 +13,7 @@ public class ArtEventHandlers {
         Application.artService().newBudgetNotification(command);
     };
 
-    public static void register(EventBus bus) {
+    public static void register(Bus bus) {
         bus.addEventListener(BudgetImplemented.TYPE, handleImplementedBudgetEvent);
     }
 

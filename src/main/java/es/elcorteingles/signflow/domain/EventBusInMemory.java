@@ -8,12 +8,13 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class EventBus {
+public class EventBusInMemory implements Bus {
     
     Map<String, List<DomainEventSubscriber>> subscribers = new HashMap<>();
     Optional<DomainEventSubscriber<Event>> universalSubscriber;
     ExecutorService executor = Executors.newFixedThreadPool(10);
 
+    @Override
     public final void emit(Event event) {
         
         universalSubscriber.ifPresent(subscriber -> subscriber.handle(event));
@@ -27,6 +28,7 @@ public class EventBus {
         
     }
     
+    @Override
     public final void addEventListener(String eventType, DomainEventSubscriber subscriber) {
         List<DomainEventSubscriber> eventHandlers = subscribers.get(eventType);
         if (eventHandlers == null)
@@ -34,6 +36,7 @@ public class EventBus {
         eventHandlers.add(subscriber);
     }
     
+    @Override
     public final void addAllEventsListener(DomainEventSubscriber subscriber) {
         this.universalSubscriber = Optional.of(subscriber);
     }
